@@ -28,16 +28,44 @@ jobs:
           cp lib/main.dart myapp/lib/main.dart
           cp pubspec.yaml myapp/pubspec.yaml
 
-      - name: Build APK
-        working-directory: myapp
+      - name: Fix Gradle and Kotlin
+        working-directory: myapp/android
         run: |
-          flutter pub get
-          flutter build apk --release --no-shrink
+          cat > build.gradle << 'EOF'
+          buildscript {
+              ext.kotlin_version = '1.8.22'
+              repositories {
+                  google()
+                  mavenCentral()
+              }
+              dependencies {
+                  classpath 'com.android.tools.build:gradle:7.4.2'
+                  classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+              }
+          }
+          allprojects {
+              repositories {
+                  google()
+                  mavenCentral()
+              }
+          }
+          rootProject.buildDir = '../build'
+          subprojects {
+              project.buildDir = "${rootProject.buildDir}/${project.name}"
+          }
+          subprojects {
+              project.evaluationDependsOn(':app')
+          }
+          tasks.register("clean", Delete) {
+              delete rootProject.buildDir
+          }
+          EOF
 
-      - uses: actions/upload-artifact@v4
-        with:
-          name: phone-info-apk
-          path: myapp/build/app/outputs/flutter-apk/app-release.apk
+      - name: Fix Gradle wrapper
+        working-directory: myapp/android
+        run: |
+          sed -i 's|distributionUrl=.*|distributionUrl=https\\://services.gradle.org/distributions/gradle-7.6.3-all.zip|' gradle/wrapper/gradle-wrapper.properties
+
       - name: Build APK
         working-directory: myapp
         run: |
