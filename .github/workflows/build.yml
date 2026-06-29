@@ -17,13 +17,25 @@ jobs:
 
       - uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.19.0'
+          flutter-version: '3.22.0'
+          channel: 'stable'
 
-      - run: flutter pub get
+      - name: Create Flutter project
+        run: flutter create --org com.krishno --project-name phone_info myapp
 
-      - run: flutter build apk --release
+      - name: Copy main.dart
+        run: cp lib/main.dart myapp/lib/main.dart
+
+      - name: Copy pubspec.yaml
+        run: cp pubspec.yaml myapp/pubspec.yaml
+
+      - name: Build APK
+        working-directory: myapp
+        run: |
+          flutter pub get
+          flutter build apk --release
 
       - uses: actions/upload-artifact@v4
         with:
           name: phone-info-apk
-          path: build/app/outputs/flutter-apk/app-release.apk
+          path: myapp/build/app/outputs/flutter-apk/app-release.apk
