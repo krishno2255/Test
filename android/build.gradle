@@ -23,3 +23,16 @@ allprojects {
         }
     }
 }
+
+// Ensure subprojects also use the forced Kotlin stdlib versions. Some plugins
+// or transitive dependencies declare kotlin stdlib versions in submodules —
+// forcing here helps avoid duplicate-class conflicts during release builds.
+subprojects {
+    configurations.all {
+        resolutionStrategy {
+            force 'org.jetbrains.kotlin:kotlin-stdlib:1.9.0'
+            force 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.9.0'
+            force 'org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.9.0'
+        }
+    }
+}
