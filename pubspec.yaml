@@ -1,0 +1,25 @@
+name: phone_info
+description: Phone Info App
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  device_info_plus: ^9.1.0
+  battery_plus: ^5.0.0
+  connectivity_plus: ^5.0.0
+  sensors_plus: ^4.0.0
+  storage_info_plugin: ^0.0.4
+  cupertino_icons: ^1.0.6
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
+flutter:
+  uses-material-design: true
