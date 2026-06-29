@@ -13,7 +13,6 @@ dependencies:
   battery_plus: ^5.0.0
   connectivity_plus: ^5.0.0
   sensors_plus: ^4.0.0
-  storage_info_plugin: ^0.0.4
   cupertino_icons: ^1.0.6
 
 dev_dependencies:
