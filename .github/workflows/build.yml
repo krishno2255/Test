@@ -29,6 +29,12 @@ jobs:
       - name: Copy pubspec.yaml
         run: cp pubspec.yaml myapp/pubspec.yaml
 
+      - name: Fix Kotlin version
+        working-directory: myapp/android
+        run: |
+          sed -i 's/ext.kotlin_version.*/ext.kotlin_version = "1.9.10"/' build.gradle
+          sed -i 's/org.jetbrains.kotlin:kotlin-gradle-plugin:.*/org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.10"/' build.gradle
+
       - name: Build APK
         working-directory: myapp
         run: |
