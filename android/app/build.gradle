@@ -29,6 +29,14 @@ android {
     }
 }
 
+// Ensure module-level alignment of Kotlin stdlib as an additional safeguard.
+configurations.all {
+    resolutionStrategy {
+        // Force the app module to use the same kotlin stdlib-jdk8 version.
+        force "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.9.0"
+    }
+}
+
 flutter {
     source "../.."
 }
